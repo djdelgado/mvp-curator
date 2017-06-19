@@ -1,0 +1,23 @@
+{
+  "name": "estylo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djdelgado/mvp-estylo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djdelgado/mvp-estylo/issues"
+  },
+  "homepage": "https://github.com/djdelgado/mvp-estylo#readme",
+  "dependencies": {
+    "eslint": "^4.0.0",
+    "express": "^4.15.3"
+  }
+}
