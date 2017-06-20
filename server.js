@@ -5,9 +5,9 @@ const request = require('request-promise')
 require('dotenv').config()
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
-mongoose.connect('mongodb://djdelgado:abcd1234@ds131782.mlab.com:31782/estylo', (err) => {
+mongoose.connect(process.env.MONGO_URI, (err) => {
     if(err){console.log(err)}
     else {console.log('db connected')}
     
