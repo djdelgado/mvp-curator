@@ -2,16 +2,22 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const request = require('request-promise');
+const session = require('express-session');
 require('dotenv').config()
 const app = express();
 
 const PORT = process.env.PORT;
 
 mongoose.connect(process.env.MONGO_URI, (err) => {
-    if(err){console.log(err)}
-    else {console.log('db connected')}
-    
-})
+    if(err){
+      console.log(err)
+    } else {
+      app.listen(PORT, function() {
+        console.log(`Listening at ${PORT}`);
+    });
+    console.log('db connected')}   
+});
+
 let Users = mongoose.Schema({
     username: String,
     password: String
@@ -23,36 +29,47 @@ let Artist = mongoose.Schema({
 
 let user = mongoose.model('user', Users);
 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
-app.listen(PORT, function() {
-    console.log(`Listening at ${PORT}`);
-});
 
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html')
+    res.sendFile(__dirname + '/public/login.html')
 })
 
-app.post('/login', (req, res) => {
+app.get('/signup', (req, res) => {
+    res.sendFile(__dirname + '/public/signup.html')
+})
+
+app.get('/login', (req, res) => {
     console.log(req.body)
     user.find(req.body, (err, login) => {
         if(err){console.log(err)}
         console.log(login)
         if(!login[0]){
-          new user(req.body).save(err => {
-            if(err){console.log(err)}
-            console.log('Posted!')
-          });
+          res.sendFile(__dirname + '/public/login.html')
+        } else {
+          res.sendFile(__dirname + '/index.html')
         }
     });
 })
 
+app.post('/signup', (req, res) => {
+    new user(req.body).save(err => {
+        if(err){console.log(err)}
+          console.log('Posted!')
+          res.sendFile(__dirname + '/index.html')
+        });
+})
+
 // let options = {
 //     method: 'GET',
-//     url: 'https://api.artsy.net/api/artists/andy-warhol',
+//     url: 'https://api.cognitive.microsoft.com/bing/v5.0/images/search',
 //     headers: {
-//         'X-Xapp-Token': process.env.ARTSY_TOKEN,
+//         'Ocp-Apim-Subscription-Key': process.env.KEY,
+//     },
+//     params: {
+//         q: 'Basquiat'
 //     }
 // }
 
