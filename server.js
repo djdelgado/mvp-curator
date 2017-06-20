@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const request = require('request-promise')
+const request = require('request-promise');
 require('dotenv').config()
 const app = express();
 
@@ -29,7 +29,6 @@ app.listen(PORT, function() {
     console.log(`Listening at ${PORT}`);
 });
 
-app.use(bodyParser.urlencoded({extended: true}))
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html')
@@ -49,13 +48,13 @@ app.post('/login', (req, res) => {
     });
 })
 
-let options = {
-    method: 'GET',
-    url: 'https://api.artsy.net/api/artists/andy-warhol',
-    headers: {
-        'X-Xapp-Token': process.env.ARTSY_TOKEN,
-    }
-}
+// let options = {
+//     method: 'GET',
+//     url: 'https://api.artsy.net/api/artists/andy-warhol',
+//     headers: {
+//         'X-Xapp-Token': process.env.ARTSY_TOKEN,
+//     }
+// }
 
 // request(options)
 //     .then((body) => {
