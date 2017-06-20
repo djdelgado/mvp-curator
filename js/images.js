@@ -1,5 +1,5 @@
 angular.module('app')
-  .directive('imageView', (bing) => {
+  .directive('imageView', () => {
     return {
       scope: {
 
@@ -10,7 +10,7 @@ angular.module('app')
         $scope.grabImg = (url) => {
           $scope.artwork = url;
         };
-        bing.search('van gogh');
+        // bing.search('van gogh');
       },
       controllerAs: 'ctrl',
       bindToController: true,
