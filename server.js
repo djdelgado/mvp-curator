@@ -47,7 +47,6 @@ app.post('/login', (req, res) => {
           });
         }
     });
-    
 })
 
 let options = {
