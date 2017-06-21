@@ -95,18 +95,16 @@ app.get('/userTag', (req, res) => {
 app.post('/like', (req, res) => {
   let conditions = { username: userTag, artist: req.body.artist };
   let update = { $inc: { likes: 1 } };
-  console.log(req.body, "the obj");
   Artist.findOne(conditions, (err, found) => {
     if (err) { console.log(err); }
-    console.log(found, "found")
     if (!found) {
-      new Artist({ username: userTag, artist: req.body.artist, likes: 0 })
-        .save((err) => {
-          if (err) { console.log(err); }
+      new Artist({ username: userTag, artist: req.body.artist, likes: 1 })
+        .save((e) => {
+          if (e) { console.log(e); }
         });
     }
-    Artist.update(conditions, update, (err, data) => {
-      if (err) { console.log(err); }
+    Artist.update(conditions, update, (error, data) => {
+      if (error) { console.log(error); }
       console.log(data, "like counter");
     });
   });
@@ -117,7 +115,7 @@ app.get('/grabArt', (req, res) => {
   const artistList = ['Pablo Picasso', 'Vincent van Gogh', 'Leonardo da Vinci', 'Claude Monet', 'Salvador Dali', 'Henri Matisse', 'Rembrandt', 'Andy Warhol', 'Georgia OKeeffe', 'Michelangelo', 'Peter Paul Rubens', 'Edgar Degas', 'Caravaggio', 'Pierre-Auguste Renoir', 'Raphael', 'Paul Cezanne', 'Marc Chagall', 'Titian', 'Joan Miro', 'Jackson Pollock', 'Gustav Klimt', 'Albrecht Durer', 'Edward Hopper', 'Wassily Kandinsky', 'Jan Vermeer', 'Paul Klee', 'Edvard Munch', 'Goya', 'Janet Fish', 'Edouard Manet'];
 
   let artistName = artistList[Math.floor(Math.random() * artistList.length)];
-
+  let i = Math.floor(Math.random() * 5);
   let options = {
     method: 'GET',
     uri: `https://api.cognitive.microsoft.com/bing/v5.0/images/search?q=${artistName}+art`,
@@ -129,8 +127,7 @@ app.get('/grabArt', (req, res) => {
   request(options)
     .then((data) => {
       let body = JSON.parse(data);
-      let img = body.value[0].thumbnailUrl;
-    //   console.log(body.value[0].thumbnailUrl, 'data from server');
+      let img = body.value[i].contentUrl;
       let obj = { artist: artistName, image: img };
       res.send(obj);
     })
@@ -138,6 +135,15 @@ app.get('/grabArt', (req, res) => {
       console.log(err, 'ERROR');
     });
 });
+
+app.get('/findLikes', (req, res) => {
+  Artist.find({ username: userTag }, (err, found) => {
+    console.log(found, "found likes by user")
+    res.send(found);
+  })
+})
+
+
 
 
 app.get('/js/app.js', (req, res) => {
@@ -149,5 +155,7 @@ app.get('/js/service.js', (req, res) => {
 app.get('/js/images.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'js/images.js'));
 });
-
+app.get('/js/cat.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'js/cat.js'));
+});
 

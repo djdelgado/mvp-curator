@@ -30,9 +30,9 @@ angular.module('app')
       bindToController: true,
       template: `
       <div ng-controller="imgCtrl" class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <img alt="art" src={{ctrl.url}} />
+        <div class="text-center" class="row">
+            <div class="rounded mx-auto d-block" class="col-md-12">
+                <img class="img-responsive" alt="art" src={{ctrl.url}} />
                 <div class="btn-group btn-group-lg">
             
                 <button ng-click="ctrl.likeClick()" class="btn btn-default" type="button">

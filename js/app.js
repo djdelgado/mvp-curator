@@ -1,6 +1,7 @@
 const app = angular.module('app', [])
   .controller('appCtrl', ($scope, $http) => {
     $scope.username = 'admin';
+    this.clicked = false;
     $http.get('/userTag').then(({ data }) => {
       $scope.username = data;
     }, (err) => {
@@ -21,13 +22,13 @@ const app = angular.module('app', [])
                 <a href="/">{{ username }}</a>
               </li>
               <li>
-                <a href="#">Catalogue</a>
+                <a ng-click="clicked = !clicked">Catalogue</a>
               </li>
             </ul>
           </div>
         </div>
       </div>
-      <div class="container-fluid">
+      <div ng-show="!clicked" class="container-fluid">
       <div class="row">
         <div class="col-md-12">
           <div class="jumbotron">
@@ -40,6 +41,9 @@ const app = angular.module('app', [])
           </div>
         </div>
       </div>
+    </div>
+    <div>
+      <catalogue ng-show="clicked"></catalogue>
     </div>
           `,
     };
