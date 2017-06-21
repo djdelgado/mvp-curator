@@ -95,8 +95,6 @@ app.put('/like', (req, res) => {
   console.log("You liked it!!");
 });
 
-
-
 app.get('/grabArt', (req, res) => {
   const artistList = ['Pablo Picasso', 'Vincent van Gogh', 'Leonardo da Vinci', 'Claude Monet', 'Salvador Dali', 'Henri Matisse', 'Rembrandt', 'Andy Warhol', 'Georgia OKeeffe', 'Michelangelo', 'Peter Paul Rubens', 'Edgar Degas', 'Caravaggio', 'Pierre-Auguste Renoir', 'Raphael', 'Paul Cezanne', 'Marc Chagall', 'Titian', 'Joan Miro', 'Jackson Pollock', 'Gustav Klimt', 'Albrecht Durer', 'Edward Hopper', 'Wassily Kandinsky', 'Jan Vermeer', 'Paul Klee', 'Edvard Munch', 'Goya', 'Janet Fish', 'Edouard Manet'];
 
@@ -114,16 +112,14 @@ app.get('/grabArt', (req, res) => {
     .then((data) => {
       let body = JSON.parse(data);
       let img = body.value[0].thumbnailUrl;
-      console.log(body.value[0].thumbnailUrl, 'data from server');
-      let obj = { artist: artistName, image: img }
+    //   console.log(body.value[0].thumbnailUrl, 'data from server');
+      let obj = { artist: artistName, image: img };
       res.send(obj);
     })
     .catch((err) => {
       console.log(err, 'ERROR');
     });
 });
-
-
 
 
 app.get('/js/app.js', (req, res) => {
