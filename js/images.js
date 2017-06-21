@@ -1,12 +1,14 @@
 angular.module('app')
   .controller('imgCtrl', function($http, bing) {
-    // $scope.atrists = ['van gogh', 'salvador dali', 'rembrant'];
-    // $scope.artwork = '';
-    // $scope.grabImg = (url) => {
-    //   $scope.artwork = url;
-    // };
-    console.log("in image controller")
-    // bing.search('van gogh');
+    this.artist = '';
+    this.url = '';
+    this.grabWork = (work) => {
+      console.log(work, 'work');
+      this.artist = work.artist;
+      this.url = work.image;
+    };
+    bing.search(this.grabWork);
+    console.log(this.artist, "the artist");
     // this.likeClick = () => {
     //   console.log("it clicked")
     //   $http.put('/like').then((data) => {
@@ -26,7 +28,7 @@ angular.module('app')
       <div ng-controller="imgCtrl" class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <img alt="artwork" src="https://tse3.mm.bing.net/th?id=OIP.K7UEgKixROvjQ2wR7lXZRAEsDl&pid=Api" />
+                <img alt="art" src={{ctrl.url}} />
                 <div class="btn-group btn-group-lg">
             
                 <button ng-click="ctrl.likeClick()" class="btn btn-default" type="button">

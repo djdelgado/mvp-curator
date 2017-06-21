@@ -27,6 +27,20 @@ const app = angular.module('app', [])
           </div>
         </div>
       </div>
-      `,
+      <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="jumbotron">
+            <h2>
+              Welcome to Curator
+            </h2>
+            <p>
+              Discover your new favorite artist and learn more about all the different styles of art you didn't know you love! 
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+          `,
     };
   });

@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-// const request = require('request-promise');
+const request = require('request-promise');
 const session = require('express-session');
 const path = require('path');
 require('dotenv').config();
@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(process.env.MONGO_URI, (err) => {
   if (err) {
-    console.log(err);
+    console.error(err);
   } else {
     app.listen(PORT, () => {
       console.log(`Listening at ${PORT}`);
@@ -93,12 +93,35 @@ app.get('/userTag', (req, res) => {
 
 app.put('/like', (req, res) => {
   console.log("You liked it!!");
-  
 });
 
 
 
+app.get('/grabArt', (req, res) => {
+  const artistList = ['Pablo Picasso', 'Vincent van Gogh', 'Leonardo da Vinci', 'Claude Monet', 'Salvador Dali', 'Henri Matisse', 'Rembrandt', 'Andy Warhol', 'Georgia OKeeffe', 'Michelangelo', 'Peter Paul Rubens', 'Edgar Degas', 'Caravaggio', 'Pierre-Auguste Renoir', 'Raphael', 'Paul Cezanne', 'Marc Chagall', 'Titian', 'Joan Miro', 'Jackson Pollock', 'Gustav Klimt', 'Albrecht Durer', 'Edward Hopper', 'Wassily Kandinsky', 'Jan Vermeer', 'Paul Klee', 'Edvard Munch', 'Goya', 'Janet Fish', 'Edouard Manet'];
 
+  let artistName = artistList[Math.floor(Math.random() * artistList.length)];
+
+  let options = {
+    method: 'GET',
+    uri: `https://api.cognitive.microsoft.com/bing/v5.0/images/search?q=${artistName}+art`,
+    headers: {
+      'Ocp-Apim-Subscription-Key': process.env.KEY,
+    },
+  };
+
+  request(options)
+    .then((data) => {
+      let body = JSON.parse(data);
+      let img = body.value[0].thumbnailUrl;
+      console.log(body.value[0].thumbnailUrl, 'data from server');
+      let obj = { artist: artistName, image: img }
+      res.send(obj);
+    })
+    .catch((err) => {
+      console.log(err, 'ERROR');
+    });
+});
 
 
 
