@@ -23,6 +23,8 @@ const Artists = mongoose.Schema({
 const User = mongoose.model('user', Users);
 const Artist = mongoose.model('artist', Artists);
 
+let userTag = '';
+
 app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,7 +41,6 @@ mongoose.connect(process.env.MONGO_URI, (err) => {
   }
 });
 
-let userTag = '';
 
 app.get('/', (req, res) => {
   if (req.session.user) {
@@ -91,8 +92,25 @@ app.get('/userTag', (req, res) => {
   res.send(userTag);
 });
 
-app.put('/like', (req, res) => {
-  console.log("You liked it!!");
+app.post('/like', (req, res) => {
+  let conditions = { username: userTag, artist: req.body.artist };
+  let update = { $inc: { likes: 1 } };
+  console.log(req.body, "the obj");
+  Artist.findOne(conditions, (err, found) => {
+    if (err) { console.log(err); }
+    console.log(found, "found")
+    if (!found) {
+      new Artist({ username: userTag, artist: req.body.artist, likes: 0 })
+        .save((err) => {
+          if (err) { console.log(err); }
+        });
+    }
+    Artist.update(conditions, update, (err, data) => {
+      if (err) { console.log(err); }
+      console.log(data, "like counter");
+    });
+  });
+  res.end();
 });
 
 app.get('/grabArt', (req, res) => {

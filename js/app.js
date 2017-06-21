@@ -35,7 +35,7 @@ const app = angular.module('app', [])
               Welcome to Curator
             </h2>
             <p>
-              Discover your new favorite artist and learn more about all the different styles of art you didn't know you love! 
+              Discover your new favorite artist and learn more about all the different styles of art you didn't know you loved! 
             </p>
           </div>
         </div>

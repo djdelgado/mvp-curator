@@ -6,7 +6,7 @@ angular.module('app')
           console.log(data, 'grab art hit in angular');
           cb(data);
         }, (err) => {
-          console.log(err);  
+          console.log(err);
         });
       },
     };
