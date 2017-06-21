@@ -79,12 +79,13 @@ app.post('/signup', (req, res) => {
   new User(req.body).save((err) => {
     if (err) {
       console.error(err);
+    } else {
+      req.session.regenerate(() => {
+        req.session.user = req.body.username;
+        userTag = req.body.username;
+        res.redirect('/');
+      });
     }
-    req.session.regenerate(() => {
-      req.session.user = req.body.username;
-      userTag = req.body.username;
-      res.redirect('/');
-    });
   });
 });
 
@@ -112,7 +113,7 @@ app.post('/like', (req, res) => {
 });
 
 app.get('/grabArt', (req, res) => {
-  const artistList = ['Pablo Picasso', 'Vincent van Gogh', 'Leonardo da Vinci', 'Claude Monet', 'Salvador Dali', 'Henri Matisse', 'Rembrandt', 'Andy Warhol', 'Georgia OKeeffe', 'Michelangelo', 'Peter Paul Rubens', 'Edgar Degas', 'Caravaggio', 'Pierre-Auguste Renoir', 'Raphael', 'Paul Cezanne', 'Marc Chagall', 'Titian', 'Joan Miro', 'Jackson Pollock', 'Gustav Klimt', 'Albrecht Durer', 'Edward Hopper', 'Wassily Kandinsky', 'Jan Vermeer', 'Paul Klee', 'Edvard Munch', 'Goya', 'Janet Fish', 'Edouard Manet'];
+  const artistList = ['Pablo Picasso', 'Vincent van Gogh', 'Basquate', 'Rene Magritte', 'Leonardo da Vinci', 'Claude Monet', 'Salvador Dali', 'Henri Matisse', 'Rembrandt', 'Andy Warhol', 'Georgia OKeeffe', 'Michelangelo', 'Peter Paul Rubens', 'Edgar Degas', 'Caravaggio', 'Pierre-Auguste Renoir', 'Raphael', 'Paul Cezanne', 'Marc Chagall', 'Titian', 'Joan Miro', 'Jackson Pollock', 'Gustav Klimt', 'Albrecht Durer', 'Edward Hopper', 'Wassily Kandinsky', 'Jan Vermeer', 'Paul Klee', 'Edvard Munch', 'Goya', 'Janet Fish', 'Edouard Manet'];
 
   let artistName = artistList[Math.floor(Math.random() * artistList.length)];
   let i = Math.floor(Math.random() * 5);
@@ -138,13 +139,9 @@ app.get('/grabArt', (req, res) => {
 
 app.get('/findLikes', (req, res) => {
   Artist.find({ username: userTag }, (err, found) => {
-    console.log(found, "found likes by user")
     res.send(found);
-  })
-})
-
-
-
+  });
+});
 
 app.get('/js/app.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'js/app.js'));

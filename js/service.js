@@ -9,10 +9,10 @@ angular.module('app')
           console.log(err);
         });
       },
-      findLikes: (cb) => {
+      findLikes: (call) => {
         $http.get('/findLikes').then(({ data }) => {
           console.log(data, 'grab stats');
-          cb(data);
+          call(data);
         }, (err) => {
           console.log(err);
         });

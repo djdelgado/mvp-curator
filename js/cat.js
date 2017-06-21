@@ -1,13 +1,19 @@
 angular.module('app')
-  .controller('catCtrl', ($http, bing) => {
-    this.statistics;
+  .controller('catCtrl', ($scope, $http, bing) => {
+    $scope.statistics = [];
     this.getLikes = (stats) => {
-      this.statistics = stats;
+        console.log(stats, "my stats")
+      stats.forEach((obj, i, arr) => {
+        $scope.statistics.push(obj);
+      });
     };
-    bing.findLikes(this.getLike);
+    bing.findLikes(this.getLikes);
   })
   .directive('catalogue', () => {
     return {
+      scope: {
+        stats: '<',
+      },
       controller: 'catCtrl',
       controllerAs: 'ctrl',
       bindToController: true,
@@ -17,7 +23,7 @@ angular.module('app')
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6">
-                            <table class="table">
+                            <table  class="table">
                                 <thead>
                                     <tr>
                                         <th>
@@ -28,12 +34,13 @@ angular.module('app')
                                         </th>
                                     </tr>
                                 </thead>
-                                    <tr class="success">
+                                 <tbody>
+                                    <tr ng-repeat="st in statistics" class="success">
                                         <td>
-                                            {{ likes }}
+                                            {{ st.likes }}
                                         </td>
                                         <td>
-                                            {{ artist }}
+                                            {{ st.artist }}
                                         </td>
                                     </tr>
                                 </tbody>
