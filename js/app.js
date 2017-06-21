@@ -7,7 +7,6 @@ const app = angular.module('app', [])
     }, (err) => {
       console.log(err);
     });
-
   })
   .directive('appNav', () => {
     return {
@@ -24,6 +23,9 @@ const app = angular.module('app', [])
               </li>
               <li>
                 <a ng-click="clicked = !clicked" >Catalogue</a>
+              </li>
+              <li>
+                <a href="/logout" >logout</a>
               </li>
             </ul>
           </div>

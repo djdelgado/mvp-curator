@@ -43,6 +43,7 @@ mongoose.connect(process.env.MONGO_URI, (err) => {
 
 
 app.get('/', (req, res) => {
+    console.log(req.session)
   if (req.session.user) {
     res.sendFile(path.join(__dirname, 'index.html'));
   } else {
@@ -52,7 +53,7 @@ app.get('/', (req, res) => {
 
 app.get('/signup', (req, res) => {
   if (req.session.user) {
-    res.dedirect('/');
+    res.redirect('/');
   } else {
     res.sendFile(path.join(__dirname, 'public/signup.html'));
   }
@@ -88,6 +89,11 @@ app.post('/signup', (req, res) => {
     }
   });
 });
+
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+})
 
 app.get('/userTag', (req, res) => {
   res.send(userTag);

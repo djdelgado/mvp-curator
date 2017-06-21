@@ -31,8 +31,8 @@ angular.module('app')
       template: `
       <div ng-controller="imgCtrl" class="container-fluid">
         <div class="text-center" class="row">
-            <div class="rounded mx-auto d-block" class="col-md-12">
-                <img class="img-responsive" alt="art" src={{ctrl.url}} />
+            <div class="text-center" class="col-md-12">
+                <img class="img-responsive" style="text-align-center" alt="art" src={{ctrl.url}} />
                 <div class="btn-group btn-group-lg">
             
                 <button ng-click="ctrl.likeClick()" class="btn btn-default" type="button">
